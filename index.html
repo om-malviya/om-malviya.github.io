@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Om Malviya</title>
+<meta name="description" content="Om Malviya — computer science undergrad building low-level systems and matching engines in modern C++." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg:    #0a0a0a;
+    --fg:    #ededea;
+    --dim:   #8f8f88;
+    --mute:  #5c5c56;
+    --rule:  #26261f;
+    --rule-hi: #3c3c33;
+    --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+    --mono:  'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--serif);
+    font-size: 19px;
+    line-height: 1.65;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  @media (prefers-reduced-motion: reduce){ html { scroll-behavior: auto; } }
+
+  .wrap { max-width: 680px; margin: 0 auto; padding: 0 28px; }
+
+  a { color: var(--fg); text-decoration: none; }
+
+  /* small caps mono label */
+  .label {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mute);
+    font-weight: 400;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 0;
+  }
+
+  /* ---------- top bar ---------- */
+  .topbar {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding: 34px 0 22px; gap: 20px; flex-wrap: wrap;
+  }
+  .topbar .name { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--fg); }
+  .topbar .links { display: flex; gap: 22px; }
+  .topbar .links a {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; color: var(--dim);
+    padding-bottom: 2px; border-bottom: 1px solid transparent; transition: color .2s, border-color .2s;
+  }
+  .topbar .links a:hover { color: var(--fg); border-color: var(--rule-hi); }
+
+  /* ---------- intro ---------- */
+  .intro { padding: 70px 0 64px; }
+  .intro h1 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(1.9rem, 5.2vw, 2.9rem);
+    line-height: 1.28;
+    letter-spacing: -0.01em;
+  }
+  .intro h1 em { font-style: italic; color: var(--fg); }
+  .intro .sub { color: var(--dim); margin-top: 26px; font-size: 1.05rem; max-width: 56ch; }
+  .intro .meta { margin-top: 30px; display: flex; gap: 28px; flex-wrap: wrap; }
+  .intro .meta span { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em; color: var(--mute); }
+  .intro .meta span b { color: var(--dim); font-weight: 400; }
+
+  /* ---------- section ---------- */
+  section { padding: 54px 0; }
+  .sec-grid { display: grid; grid-template-columns: 150px 1fr; gap: 40px; align-items: start; }
+  @media (max-width: 620px){ .sec-grid { grid-template-columns: 1fr; gap: 20px; } }
+  .sec-grid > .label { padding-top: 7px; }
+
+  /* intro body text blocks */
+  .prose p { color: var(--dim); margin-bottom: 18px; }
+  .prose p:last-child { margin-bottom: 0; }
+  .prose em { font-style: italic; color: var(--fg); }
+  .prose .ulink { color: var(--fg); border-bottom: 1px solid var(--rule-hi); }
+  .prose .ulink:hover { border-color: var(--fg); }
+
+  /* ---------- work list ---------- */
+  .work-item { padding: 26px 0; border-top: 1px solid var(--rule); }
+  .work-item:first-child { border-top: none; padding-top: 2px; }
+  .work-head { display: flex; align-items: baseline; justify-content: space-between; gap: 18px; }
+  .work-head h3 { font-family: var(--serif); font-weight: 400; font-size: 1.4rem; letter-spacing: -0.01em; }
+  .work-head h3 .star { font-family: var(--mono); font-size: 0.7rem; color: var(--mute); margin-left: 10px; letter-spacing: 0; vertical-align: middle; }
+  .work-head .stack { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; color: var(--mute); text-align: right; white-space: nowrap; }
+  .work-item p { color: var(--dim); margin-top: 10px; font-size: 1rem; }
+  .work-item .go {
+    display: inline-block; margin-top: 14px;
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; color: var(--dim);
+    border-bottom: 1px solid var(--rule-hi); padding-bottom: 2px; transition: color .2s, border-color .2s;
+  }
+  .work-item .go:hover { color: var(--fg); border-color: var(--fg); }
+  .work-item .go .arr { transition: transform .2s; display: inline-block; }
+  .work-item .go:hover .arr { transform: translateX(4px); }
+
+  /* ---------- plain lists (achievements / experience) ---------- */
+  .list .row { display: flex; align-items: baseline; justify-content: space-between; gap: 18px; padding: 12px 0; border-top: 1px solid var(--rule); }
+  .list .row:first-child { border-top: none; }
+  .list .row .what { color: var(--fg); font-size: 1.02rem; }
+  .list .row .what small { color: var(--dim); }
+  .list .row .side { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.06em; color: var(--mute); white-space: nowrap; text-align: right; }
+
+  .xp-item { padding: 4px 0 24px; }
+  .xp-item:last-child { padding-bottom: 0; }
+  .xp-item .xp-top { display: flex; align-items: baseline; justify-content: space-between; gap: 18px; }
+  .xp-item h3 { font-family: var(--serif); font-weight: 400; font-size: 1.25rem; }
+  .xp-item .where { color: var(--dim); font-style: italic; margin-top: 2px; }
+  .xp-item .when { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; color: var(--mute); white-space: nowrap; text-align: right; }
+  .xp-item ul { list-style: none; margin-top: 12px; }
+  .xp-item li { color: var(--dim); font-size: 0.98rem; padding-left: 18px; position: relative; margin-bottom: 8px; }
+  .xp-item li::before { content: "—"; position: absolute; left: 0; color: var(--mute); }
+
+  /* skills */
+  .skills-rows .srow { display: grid; grid-template-columns: 120px 1fr; gap: 20px; padding: 12px 0; border-top: 1px solid var(--rule); }
+  .skills-rows .srow:first-child { border-top: none; }
+  @media (max-width: 620px){ .skills-rows .srow { grid-template-columns: 1fr; gap: 4px; } }
+  .skills-rows .srow .k { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); padding-top: 3px; }
+  .skills-rows .srow .v { color: var(--dim); }
+
+  /* ---------- footer ---------- */
+  footer { padding: 60px 0 56px; border-top: 1px solid var(--rule); }
+  .foot-flex { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  .foot-flex .fnote { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; color: var(--mute); }
+  .foot-flex .flinks { display: flex; gap: 20px; }
+  .foot-flex .flinks a { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.06em; color: var(--dim); border-bottom: 1px solid transparent; padding-bottom: 2px; transition: color .2s, border-color .2s; }
+  .foot-flex .flinks a:hover { color: var(--fg); border-color: var(--rule-hi); }
+
+  /* reveal */
+  .rv { opacity: 0; transform: translateY(14px); transition: opacity .7s ease, transform .7s ease; }
+  .rv.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce){ .rv { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="topbar">
+    <span class="name">Om Malviya</span>
+    <div class="links">
+      <a href="https://github.com/om-malviya" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/om-malviya-174508326" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:ommalviya005@gmail.com">Email</a>
+    </div>
+  </div>
+  <hr />
+
+  <div class="intro">
+    <h1>I build software <em>close to the metal</em> — matching engines, binary protocols, and low-latency backends in modern&nbsp;C++.</h1>
+    <p class="sub">Computer science undergrad at BITS Pilani. I like understanding systems from first principles, where latency, memory layout, and correctness actually matter. Codeforces Expert, CodeChef&nbsp;5★.</p>
+    <div class="meta">
+      <span><b>Based in</b> &nbsp;Bengaluru, India</span>
+      <span><b>Focus</b> &nbsp;C++ / systems</span>
+      <span><b>Status</b> &nbsp;Open to roles</span>
+    </div>
+  </div>
+
+  <hr />
+
+  <!-- ABOUT -->
+  <section>
+    <div class="sec-grid">
+      <div class="label rv">About</div>
+      <div class="prose rv">
+        <p>I'm Om — drawn to the parts of software where the details decide everything. Most of my serious work is in <em>modern C++ (C++20)</em>: a two-sided limit order book modeling the core of an electronic exchange, a binary framing of HTTP with its own written spec and a from-scratch socket server, and a low-latency typeahead backend fronted by a consistent-hash Redis ring.</p>
+        <p>I care about deterministic behaviour — integer-tick pricing, <em>O(1)</em> depth reads, zero-I/O cores — and I check it with invariant tests and latency benchmarks. Competitive programming is where I keep the fundamentals sharp: Expert on <a class="ulink" href="https://codeforces.com/profile/om-malviya" target="_blank" rel="noopener">Codeforces</a>, 5★ on CodeChef, and a world rank of 1777 at the Meta&nbsp;Hacker&nbsp;Cup.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- WORK -->
+  <section>
+    <div class="sec-grid">
+      <div class="label rv">Selected&nbsp;Work</div>
+      <div class="work rv">
+
+        <div class="work-item">
+          <div class="work-head">
+            <h3>Limit Order Book <span class="star">★ 3</span></h3>
+            <span class="stack">C++20 · CMake · Catch2</span>
+          </div>
+          <p>A two-sided limit order book with price-time (FIFO) priority for limit and market orders — the core of an electronic exchange. Prices modeled as integer ticks for exact, deterministic matching and O(1) depth-of-book reads; a zero-I/O matching core emits trade events, separated from rendering. Validated by 19 Catch2 invariant tests.</p>
+          <a class="go" href="https://github.com/om-malviya/Order-Book" target="_blank" rel="noopener">View source <span class="arr">→</span></a>
+        </div>
+
+        <div class="work-item">
+          <div class="work-head">
+            <h3>Search Typeahead</h3>
+            <span class="stack">C++20 · Redis · PostgreSQL</span>
+          </div>
+          <p>A low-latency search-suggestion service over a real 300k+ row Wikipedia Pageviews dataset. A hand-written Trie serves ranked top-10 prefix matches, fronted by a Redis cache sharded across 3 nodes via a consistent-hash ring. A batched writer cuts DB write pressure; p50/p95/p99 latency and cache-hit rate benchmarked.</p>
+          <a class="go" href="https://github.com/om-malviya/TypeAhead" target="_blank" rel="noopener">View source <span class="arr">→</span></a>
+        </div>
+
+        <div class="work-item">
+          <div class="work-head">
+            <h3>bserve — BHTTP/1</h3>
+            <span class="stack">C++17 · Sockets</span>
+          </div>
+          <p>“HTTP, in binary” — a binary framing of HTTP's GET/HEAD semantics with its own written specification. A static file server in C++17 built on raw sockets, a frame loop, and a codec, with no third-party dependencies, an annotated hexdump mode, and a from-the-spec test client. End-to-end tested.</p>
+          <a class="go" href="https://github.com/om-malviya/bhttp-server" target="_blank" rel="noopener">View source <span class="arr">→</span></a>
+        </div>
+
+        <div class="work-item">
+          <div class="work-head">
+            <h3>Website Automation Agent</h3>
+            <span class="stack">TypeScript · FastAPI</span>
+          </div>
+          <p>An autonomous agent that executes multi-step web tasks from plain English in a real Chromium browser. Interactive DOM detection maps bounding boxes to index maps for text-based reasoning without vision-model latency, with resilient loops: schema validation, rate-limit backoff, stale-element recovery, and SSE streaming.</p>
+          <a class="go" href="https://github.com/om-malviya/Website-Automation-Agent" target="_blank" rel="noopener">View source <span class="arr">→</span></a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- ACHIEVEMENTS -->
+  <section>
+    <div class="sec-grid">
+      <div class="label rv">Achievements</div>
+      <div class="list rv">
+        <div class="row"><span class="what">Expert on Codeforces <small>· max 1747</small></span><span class="side">Competitive</span></div>
+        <div class="row"><span class="what">5★ on CodeChef <small>· max 2069</small></span><span class="side">Competitive</span></div>
+        <div class="row"><span class="what">Knight on LeetCode <small>· max 1959</small></span><span class="side">Competitive</span></div>
+        <div class="row"><span class="what">World Rank 1777 — Meta Hacker Cup R1 <small>· 2025</small></span><span class="side">Contest</span></div>
+        <div class="row"><span class="what">All India Rank 42 — IIT Madras Shaastra</span><span class="side">Contest</span></div>
+        <div class="row"><span class="what">2× national hackathon podiums <small>· 1st (Algorand), 3rd (RIFT'26)</small></span><span class="side">Hackathon</span></div>
+      </div>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- EXPERIENCE -->
+  <section>
+    <div class="sec-grid">
+      <div class="label rv">Experience</div>
+      <div class="rv">
+        <div class="xp-item">
+          <div class="xp-top">
+            <div>
+              <h3>Backend Developer</h3>
+              <div class="where">Scaler — Internal Tools</div>
+            </div>
+            <span class="when">Mar – Jun 2025</span>
+          </div>
+          <ul>
+            <li>Built a college-management application with a team using Spring Boot, REST APIs, and PostgreSQL.</li>
+            <li>Designed a mess-management schema that removed a Google Forms dependency, and a searchable announcement system — 80% faster information retrieval.</li>
+            <li>Shipped 15+ features: transport management, document hub, events directory, and a digital ID card.</li>
+          </ul>
+        </div>
+        <div class="xp-item">
+          <div class="xp-top">
+            <div>
+              <h3>B.E. Computer Science</h3>
+              <div class="where">BITS Pilani — CGPA 8.5</div>
+            </div>
+            <span class="when">2024 – 2027</span>
+          </div>
+          <ul>
+            <li>Ex-Core Member, NlogN Competitive Programming Club — organized 5+ contests with 500+ participants.</li>
+            <li>HOD Sponsorships @ Ascent'26 — secured 4.5L+ in sponsorships (Google Developer Groups, Red Bull, and more).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- SKILLS -->
+  <section>
+    <div class="sec-grid">
+      <div class="label rv">Toolbox</div>
+      <div class="skills-rows rv">
+        <div class="srow"><div class="k">Languages</div><div class="v">C++ (C++20), C, Python, Java, TypeScript, SQL</div></div>
+        <div class="srow"><div class="k">Systems</div><div class="v">Sockets &amp; networking, protocol design, matching engines, concurrency, latency benchmarking</div></div>
+        <div class="srow"><div class="k">Backend</div><div class="v">PostgreSQL, Redis, Spring Boot, Docker, REST APIs, Git</div></div>
+        <div class="srow"><div class="k">AI / Agents</div><div class="v">Agentic workflows, tool calling, RAG, structured outputs, FastAPI, Playwright</div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot-flex">
+      <span class="fnote">Om Malviya · 2026</span>
+      <div class="flinks">
+        <a href="https://github.com/om-malviya" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/om-malviya-174508326" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://x.com/OmMalvi35924078" target="_blank" rel="noopener">X</a>
+        <a href="mailto:ommalviya005@gmail.com">Email</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  const io = new IntersectionObserver((es) => {
+    es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
